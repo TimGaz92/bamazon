@@ -58,14 +58,18 @@ inquirer.prompt([
 }
 	]).then(function(answer){	
 		if (answer.confirm === true && answer.selectionQuant > 0) {
-		  //if (answer.selectionQuant > inventory.stock_quant) {	
-			connection.query("UPDATE productTable SET ? WHERE ?", [ //this isn't working
-			{stock_quant: 10},
+		  console.log("passsed 2nd if");	
+			connection.query("UPDATE productTable SET ? WHERE ?", [ 
+			{stock_quant: 10},//functioning with hardcoded value
 			{id:[answer.selection]}
-				],function(err, result){console.log(result)});
+				],function(err, result){});
+			connection.query("SELECT price FROM productTable WHERE ?", [
+				{id:[answer.selection]}
+				], function(err, result){console.log("YOU'VE SPENT: $" + result[0].price * answer.selectionQuant)});
+
+
 			start();
-		 //}
-		}
+		 }
 		else{
 			console.log("sorry not enough in stock");
 			start();
