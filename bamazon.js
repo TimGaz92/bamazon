@@ -31,8 +31,16 @@ console.log("-------------------------------------------------");
 				console.log(result[i].id + "---------" + result[i].name + "---------" + result[i].department
 				 + "---------" + result[i].price + "---------" + result[i].stock_quant);
 			}
-	makePurchase(result);		
+		
+	function updateStock(){
+		connection.query("UPDATE productTable SET ? WHERE ?", {
+			id:[answer.selection],
+			stock_quant: stock_quant - answer.selectionQuant,
+				},function(error, result){console.log(result)});
+		}
+			makePurchase(result);
 	})
+
 
 })//end of connection function	
 function makePurchase(result){
@@ -51,23 +59,12 @@ inquirer.prompt([
 	name: "confirm", 
 	default: true,
 }
-	]).then(function(answer, result){	
+	]).then(function(answer){	
 //check if the store has enough inventory
 		if (answer.confirm === true) {
-			// connection.query("UPDATE productTable SET ? WHERE ?", {
-			// stock_quant: result[answer.selection].stock_quant -= answer.selectionQuant,
-			// id:[answer.selection]
-			//},function(error, result){console.log(result)});
-//6-18 916AM GETTTING AN ERRROR ON STOCK_QUANT VARIABLE 
-//6-18 now it's telling me that result is undefined at this point
-			if (answer.selectionQuant >= result[answer.selection].stock_quant) {
-				connection.query("UPDATE productTable SET ? WHERE ?", {
-				stock_quant: result[answer.selection].stock_quant -= answer.selectionQuant,
-				id:[answer.selection]
-				},function(error, result){console.log(result)});
-			}
+			updateStock();
 		}
 
-	});//end of the
+	});//end of the then function
 
 }//end of inquire function
