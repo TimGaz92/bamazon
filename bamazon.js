@@ -60,7 +60,7 @@ inquirer.prompt([
 		if (answer.confirm === true && answer.selectionQuant > 0) {
 		  console.log("passsed 2nd if");	
 			connection.query("UPDATE productTable SET ? WHERE ?", [ 
-			{stock_quant: 10},//functioning with hardcoded value
+			{stock_quant: [stock_quant - answer.selectionQuant]},//functioning with hardcoded value
 			{id:[answer.selection]}
 				],function(err, result){});
 			connection.query("SELECT price FROM productTable WHERE ?", [
