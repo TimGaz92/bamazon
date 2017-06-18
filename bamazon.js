@@ -18,31 +18,28 @@ var connection = mysql.createConnection({
 	database: "Bamazon_db"
 
 });
-connection.connect(function(err){
+connection.connect(function start(err){
 	if (err)  throw err;
 //log everything availible for sale 
 console.log("welcome to Bamazon, please see our products below");
 console.log("Product ID-----NAME-----DEPARTMENT-----PRICE-----STOCK");
 console.log("-------------------------------------------------");
 
-	connection.query("select * from productTable", function(err, result){
+var inventory = connection.query("select * from productTable", function(err, result){
 		if (err) throw err;
 			for (var i = 0; i < result.length; i++) {
 				console.log(result[i].id + "---------" + result[i].name + "---------" + result[i].department
 				 + "---------" + result[i].price + "---------" + result[i].stock_quant);
 			}
 		
-	function updateStock(){
-		connection.query("UPDATE productTable SET ? WHERE ?", {
-			id:[answer.selection],
-			stock_quant: stock_quant - answer.selectionQuant,
-				},function(error, result){console.log(result)});
-		}
+	// function updateStock(){
+	// 	connection.query("UPDATE productTable SET ? WHERE ?", {
+	// 		id:[answer.selection],
+	// 		stock_quant: stock_quant - answer.selectionQuant,
+	// 			},function(error, result){console.log(result)});
+	// 	}
 			makePurchase(result);
 	})
-
-
-})//end of connection function	
 function makePurchase(result){
 	//prompt the user for an action, purchase by product key
 inquirer.prompt([
@@ -60,11 +57,23 @@ inquirer.prompt([
 	default: true,
 }
 	]).then(function(answer){	
-//check if the store has enough inventory
-		if (answer.confirm === true) {
-			updateStock();
+		if (answer.confirm === true && answer.selectionQuant > 0) {
+		  //if (answer.selectionQuant > inventory.stock_quant) {	
+			connection.query("UPDATE productTable SET ? WHERE ?", [ //this isn't working
+			{stock_quant: 10},
+			{id:[answer.selection]}
+				],function(err, result){console.log(result)});
+			start();
+		 //}
+		}
+		else{
+			console.log("sorry not enough in stock");
+			start();
 		}
 
 	});//end of the then function
 
 }//end of inquire function
+
+})//end of connection function	
+
