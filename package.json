@@ -1,0 +1,19 @@
+{
+  "name": "bamazon-tg",
+  "version": "1.0.0",
+  "description": "node-mysql based storefront",
+  "main": "bamazon.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/github.com/timgaz92.git"
+  },
+  "author": "tim gaz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/github.com/timgaz92/issues"
+  },
+  "homepage": "https://github.com/github.com/timgaz92#readme"
+}
