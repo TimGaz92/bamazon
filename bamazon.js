@@ -31,13 +31,6 @@ var inventory = connection.query("select * from productTable", function(err, res
 				console.log(result[i].id + "---------" + result[i].name + "---------" + result[i].department
 				 + "---------" + result[i].price + "---------" + result[i].stock_quant);
 			}
-		
-	// function updateStock(){
-	// 	connection.query("UPDATE productTable SET ? WHERE ?", {
-	// 		id:[answer.selection],
-	// 		stock_quant: stock_quant - answer.selectionQuant,
-	// 			},function(error, result){console.log(result)});
-	// 	}
 			makePurchase(result);
 	})
 function makePurchase(result){
@@ -60,7 +53,7 @@ inquirer.prompt([
 		if (answer.confirm === true && answer.selectionQuant > 0) {
 		  console.log("passsed 2nd if");	
 			connection.query("UPDATE productTable SET ? WHERE ?", [ 
-			{stock_quant: [stock_quant - answer.selectionQuant]},//functioning with hardcoded value
+			{stock_quant: [result[answer.selection].stock_quant - answer.selectionQuant]},//functioning with hardcoded value
 			{id:[answer.selection]}
 				],function(err, result){});
 			connection.query("SELECT price FROM productTable WHERE ?", [
